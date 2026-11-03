@@ -1,4 +1,4 @@
-name: Upstream Update Checker
+name: sniff
 
 on:
   schedule:
