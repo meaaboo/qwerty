@@ -323,7 +323,7 @@ jobs:
       - name: Notify Telegram
         if: success()
         env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_TOKEN: ${{ secrets.GRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: bash builder/scripts/notify_telegram.sh
 
