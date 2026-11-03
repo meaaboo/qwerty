@@ -1,0 +1,39 @@
+#!/bin/bash
+set -e
+
+KERNEL_DIR="${GITHUB_WORKSPACE}/kernel-source"
+BUILDER_DIR="${GITHUB_WORKSPACE}/builder"
+ANYKERNEL_DIR="${GITHUB_WORKSPACE}/anykernel"
+OUT_DIR="${KERNEL_DIR}/out"
+ZIMAGE_DIR="${OUT_DIR}/arch/arm64/boot"
+MODULES_DIR="${KERNEL_DIR}/.root_modules"
+BUILD_START=$(date +"%s")
+
+HZ="${INPUT_HZ:-250}"
+VARIANT="${INPUT_VARIANT:-stock}"
+ROOT="${INPUT_ROOT:-none}"
+BYPASSCHARGING="${INPUT_BYPASS:-on}"
+HTSR="${INPUT_HTSR:-on}"
+WIFI_EXPLOIT="${INPUT_WIFI:-on}"
+KGSL_EXPLOIT="${INPUT_KGSL:-on}"
+DATA_EXPLOIT="${INPUT_DATA:-on}"
+DROIDSPACES="${INPUT_DROIDSPACES:-off}"
+DEBUG_MODE="${INPUT_DEBUG:-off}"
+KERNEL_NAME="${INPUT_KERNEL_NAME:--DumpC2J}"
+BRAND="$(printf '%s' "${KERNEL_NAME#-}" | tr -c 'A-Za-z0-9._-' '-')"
+BRAND="${BRAND:-DumpC2J}"
+SPOOF_UNAME="${INPUT_SPOOF_UNAME:-on}"
+VERSION_SPOOF="${INPUT_VERSION_SPOOF:-}"
+NOMOUNT="${INPUT_NOMOUNT:-off}"
+
+case "$HZ" in
+  powersave) HZ_ID=100 ;;
+  balance) HZ_ID=250 ;;
+  smooth) HZ_ID=300 ;;
+  performance) HZ_ID=500 ;;
+  ultra-performance) HZ_ID=1000 ;;
+  *) HZ_ID="${HZ}" ;;
+esac
+
+export KBUILD_BUILD_USER="meaaboo"
+export KBUILD_BUILD_HOST="$BRAND"

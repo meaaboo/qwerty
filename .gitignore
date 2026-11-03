@@ -1,0 +1,4 @@
+*.bak
+*.orig
+*.py
+!scripts/**/*.py

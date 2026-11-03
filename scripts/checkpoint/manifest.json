@@ -1,0 +1,43 @@
+{
+  "sukisu_root": {
+    "good": "278d822a4ebd214bcfd774b7910cb11cdc560bb9",
+    "bad": []
+  },
+  "sukisu_susfs": {
+    "good": "b16e899a555e9b96aa1225f049cd7274820ca5b8",
+    "bad": [
+      "1cfa57340590971cba7521ed536da8ebbedc5f0a"
+    ]
+  },
+  "bakasu_susfs": {
+    "good": "516d3e87fbc986ccefdde2c2765f1700612441a9",
+    "bad": []
+  },
+  "ksunext_root": {
+    "good": "d1754d8cc12f05e18406171cbd1bc32cc2930d1b",
+    "bad": []
+  },
+  "ksunext_susfs": {
+    "good": "e06cce8e1f611f7c40465e635ac02bf6a7e43c3e",
+    "bad": []
+  },
+  "susfs4ksu": {
+    "good": "c51cd8aad3f7e2f8c48bc3bda88cc68cf7d82895",
+    "bad": [
+      "4674397c2e20256401b5db354a697b056809ffaa",
+      "4ba9a7e0286fb072b3871bd429d87d74b249785c",
+      "67602b109cf6c9abaa12c27ceebbcc05b2cdc698",
+      "e593920b366d407aef6029ce83bf27536d91ffba"
+    ]
+  },
+  "bakasu_root": {
+    "good": "2206a7dd71e600f34378c4c583244f46e7a35670",
+    "bad": [
+      "f7be4a53bd39d4a03876eba5e888818b1a1fcaac"
+    ]
+  },
+  "susfs4ksu_next": {
+    "good": "c7f670f57b7d43d75066b6657f8aee9cdf580d96",
+    "bad": []
+  }
+}
