@@ -45,7 +45,7 @@ jobs:
       - name: "Resolve target repo/branch"
         run: |
           echo "MIRROR_BRANCH=${{ inputs.android_version }}-${{ inputs.kernel_version }}" >> $GITHUB_ENV
-          echo "TARGET_REPO=${{ secrets.TARGET_REPO_PREFIX }}${{ inputs.kernel_version }}" >> $GITHUB_ENV
+          echo "TARGET_REPO=wleowleo" >> $GITHUB_ENV
           SOURCE_BRANCH="${{ inputs.source_branch }}"
           [ -n "$SOURCE_BRANCH" ] || SOURCE_BRANCH="main"
           echo "SOURCE_BRANCH=${SOURCE_BRANCH}" >> $GITHUB_ENV
