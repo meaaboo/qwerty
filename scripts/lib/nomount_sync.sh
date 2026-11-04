@@ -109,7 +109,7 @@ _nm_save_lastgood() {
   (
     git -C "$repo" init -q
     git -C "$repo" add "$NM_STORE_FILE"
-    git -C "$repo" -c user.name="DumpC2J Bot" -c user.email="dumpc2j-bot@users.noreply.github.com" \
+    git -C "$repo" -c user.name="meow bot" -c user.email="bot@meow" \
       commit -q -m "nomount ${NOMOUNT_TAG} (${NOMOUNT_COUNT}) ${NOMOUNT_SHA}"
     timeout 60 git "${NM_GIT_AUTH[@]}" -C "$repo" push -q -f "$NM_STORE_REMOTE" "HEAD:$NM_STORE_REF"
   ) >/dev/null 2>&1 && echo "[nomount] saved last-good copy (${NOMOUNT_TAG} (${NOMOUNT_COUNT}))" \

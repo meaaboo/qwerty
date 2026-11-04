@@ -21,8 +21,8 @@ ref_var="${PREFIX}_REF"
 ref="${!ref_var}"
 
 cd "$BUILDER_DIR"
-git config user.name  "DumpC2J Bot"
-git config user.email "bot@dumpc2j"
+git config user.name  "meow bot"
+git config user.email "bot@meow"
 
 REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
