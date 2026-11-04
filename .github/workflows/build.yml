@@ -184,7 +184,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             bc bison build-essential ccache curl flex git gnupg gperf \
             libssl-dev libxml2 lzop squashfs-tools rsync zip zlib1g-dev \
-            python3 clang lld llvm jq dwarves
+            python3 clang lld llvm jq dwarves libelf-dev
 
       - name: Get Cache Week
         id: cacheweek
