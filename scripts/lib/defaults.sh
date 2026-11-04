@@ -35,5 +35,5 @@ case "$HZ" in
   *) HZ_ID="${HZ}" ;;
 esac
 
-export KBUILD_BUILD_USER="meaaboo"
+export KBUILD_BUILD_USER="adennnqt"
 export KBUILD_BUILD_HOST="$BRAND"
