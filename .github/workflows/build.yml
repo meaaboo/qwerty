@@ -8,6 +8,11 @@ on:
         required: true
         type: string
         default: "-DumpC2J"
+      kernel_branch:
+        description: "Kernel Source Branch"
+        required: true
+        type: string
+        default: "android14-6.6"
       clang_variant:
         description: "Clang Toolchain"
         required: true
@@ -118,7 +123,7 @@ jobs:
       - name: Clone Kernel Source
         run: |
           git clone --depth=50 --filter=blob:none \
-            --branch android14-6.6 \
+            --branch "${{ inputs.kernel_branch }}" \
             https://${{ secrets.GH_TOKEN }}@github.com/meaaboo/wleowleo.git \
             kernel-source
 
