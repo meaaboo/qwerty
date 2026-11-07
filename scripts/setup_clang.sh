@@ -12,6 +12,7 @@ if [ "${CLANG_VARIANT}" != "neutron" ] && [ -x "${TOOLCHAIN_DIR}/bin/clang" ]; t
     aosp)   COMPILER_STRING="AOSP Clang ${VER}" ;;
     weebx)  COMPILER_STRING="WeebX Clang ${VER}" ;;
     zyc)    COMPILER_STRING="ZyC Clang ${VER}" ;;
+    cbl)   COMPILER_STRING="ClangBuiltLinux clang ${VER}" ;;
     *)      COMPILER_STRING="${CLANG_VARIANT} Clang ${VER}" ;;
   esac
   echo "CLANG_VARIANT=${CLANG_VARIANT}" >> "${GITHUB_ENV}"
@@ -142,6 +143,24 @@ case "${CLANG_VARIANT}" in
     CLANG_BIN="${HOME}/toolchains/zyc-clang/bin"
     ZYC_VER=$("${CLANG_BIN}/clang" --version | head -n1 | grep -oP 'clang version \K[0-9.]+' || echo "latest")
     COMPILER_STRING="ZyC Clang ${ZYC_VER}"
+    ;;
+  cbl)
+    # Prebuilt LLVM from kernel.org (Nathan Chancellor / ClangBuiltLinux, PGO). Pick the version with CBL_CLANG_VER.
+    CBL_VER="${CBL_CLANG_VER:-21.1.8}"
+    CBL_ARCH="$(uname -m)"; case "${CBL_ARCH}" in x86_64|aarch64) ;; *) echo "[!] cbl: unsupported arch ${CBL_ARCH}"; exit 1 ;; esac
+    CBL_URL="https://cdn.kernel.org/pub/tools/llvm/files/llvm-${CBL_VER}-${CBL_ARCH}.tar.xz"
+    echo "[*] kernel.org URL: ${CBL_URL}"
+    mkdir -p "${HOME}/toolchains/cbl-clang"
+    curl -fL --retry 5 --retry-delay 15 --retry-all-errors -C - --max-time 600 -o /tmp/cbl-clang.tar.xz "${CBL_URL}" || { echo "[!] kernel.org clang ${CBL_VER} download failed (check the version exists)"; exit 1; }
+    BIN_PATH=$(tar -tf /tmp/cbl-clang.tar.xz 2>/dev/null | grep -m1 'bin/clang$')
+    [ -z "$BIN_PATH" ] && { echo "[!] bin/clang not found in kernel.org tarball"; exit 1; }
+    DEPTH=$(echo "$BIN_PATH" | tr '/' '\n' | wc -l)
+    STRIP=$(( DEPTH - 2 )); [ "$STRIP" -lt 0 ] && STRIP=0
+    tar -xf /tmp/cbl-clang.tar.xz -C "${HOME}/toolchains/cbl-clang" --strip-components=${STRIP}
+    rm /tmp/cbl-clang.tar.xz
+    CLANG_BIN="${HOME}/toolchains/cbl-clang/bin"
+    CBL_REAL=$("${CLANG_BIN}/clang" --version | head -n1 | grep -oP 'clang version \K[0-9.]+' || echo "${CBL_VER}")
+    COMPILER_STRING="ClangBuiltLinux clang ${CBL_REAL}"
     ;;
   *)
     echo "[!] Unknown clang variant: ${CLANG_VARIANT}"
