@@ -152,12 +152,14 @@ case "${CLANG_VARIANT}" in
     echo "[*] kernel.org URL: ${CBL_URL}"
     mkdir -p "${HOME}/toolchains/cbl-clang"
     curl -fL --retry 5 --retry-delay 15 --retry-all-errors -C - --max-time 600 -o /tmp/cbl-clang.tar.xz "${CBL_URL}" || { echo "[!] kernel.org clang ${CBL_VER} download failed (check the version exists)"; exit 1; }
-    BIN_PATH=$(tar -tf /tmp/cbl-clang.tar.xz 2>/dev/null | grep -m1 'bin/clang$')
-    [ -z "$BIN_PATH" ] && { echo "[!] bin/clang not found in kernel.org tarball"; exit 1; }
+    tar -tf /tmp/cbl-clang.tar.xz > /tmp/cbl-clang.list
+    BIN_PATH=$(grep -m1 'bin/clang$' /tmp/cbl-clang.list || true)
+    [ -z "$BIN_PATH" ] && { echo "[!] bin/clang not found in kernel.org tarball"; head -n 10 /tmp/cbl-clang.list; exit 1; }
+    echo "[*] bin/clang found at: ${BIN_PATH}"
     DEPTH=$(echo "$BIN_PATH" | tr '/' '\n' | wc -l)
     STRIP=$(( DEPTH - 2 )); [ "$STRIP" -lt 0 ] && STRIP=0
     tar -xf /tmp/cbl-clang.tar.xz -C "${HOME}/toolchains/cbl-clang" --strip-components=${STRIP}
-    rm /tmp/cbl-clang.tar.xz
+    rm -f /tmp/cbl-clang.tar.xz /tmp/cbl-clang.list
     CLANG_BIN="${HOME}/toolchains/cbl-clang/bin"
     CBL_REAL=$("${CLANG_BIN}/clang" --version | head -n1 | grep -oP 'clang version \K[0-9.]+' || echo "${CBL_VER}")
     COMPILER_STRING="ClangBuiltLinux clang ${CBL_REAL}"
